@@ -21,16 +21,17 @@ jobs:
       - name: Install deps
         run: |
           sudo apt update
-          sudo apt install ninja-build
+          sudo apt install ninja-build clang-12 libc++-12-dev libc++abi-12-dev
       - name: Run cmake
         env:
-          CXX: clang++
-          CC: clang
+          CXX: clang++-12
+          CC: clang-12
         run: |
           mkdir build 
           cd build 
 
-          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_STANDARD=20
+          cmake .. -GNinja -DCMAKE_BUILD_TYPE=Debug
+
       - name: Run build-wrapper
         run: |
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} ninja -C build
